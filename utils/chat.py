@@ -5,7 +5,7 @@ import openai
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
-def create_conversation(messages):
+def create_conversation(messages: list) -> str:
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messages,
