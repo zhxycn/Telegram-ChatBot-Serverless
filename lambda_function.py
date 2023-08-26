@@ -51,7 +51,16 @@ def process_event(event):
                     text = text.split(" ", 1)[1]
                     messages = [{"role": "user", "content": text}]
                     bot.send_chat_action(chat_id, "typing")
-                    response = escape_special_characters(create_conversation(messages))
+                    conversation = create_conversation(messages)
+                    content = escape_special_characters(conversation[0])
+                    model = conversation[1]
+                    tokens = conversation[2]
+                    response = (
+                        f"{content}\n\n"
+                        f"\-\-\-\-\-\-\-\-\-\- *Information* \-\-\-\-\-\-\-\-\-\-\n"
+                        f"Model: `{model}`\n"
+                        f"Tokens: `{tokens[0]}({tokens[1]}\+{tokens[2]})`"
+                    )
                     bot.reply_message(chat_id, message_id, response)
                 except IndexError:
                     bot.reply_message(chat_id, message_id, "请输入对话内容")
